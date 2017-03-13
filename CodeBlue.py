@@ -12,8 +12,6 @@ console.set_color()
 
 class codeBlue (object):
 	def did_update_state(self):
-		print "Device Found"
-		cb.stop_scan()
 		pass
 
 	def did_discover_peripheral(self, p):
@@ -22,7 +20,7 @@ class codeBlue (object):
 		pass
 	
 	def did_connect_peripheral(self, p):
-		p.discover_services()
+		p.discover_services('180F')
 		print ""
 		for i in range(4):
 			sys.stdout.write("\rSending Payload" + "." * i)
@@ -39,11 +37,13 @@ class codeBlue (object):
 	def did_fail_to_connect_peripheral(self, p, error):
 		print "Failed to connect."
 		cb.reset()
+		cb.stop_scan()
 		sys.exit()
 	
 	def did_disconnect_peripheral(self, p, error):
 		print "Disconnected."
 		cb.reset()
+		cb.stop_scan()
 		sys.exit()
 	
 	def did_discover_services(self, p, error):
@@ -65,10 +65,17 @@ class codeBlue (object):
 		time.sleep(0.4)
 		print "Encryption:", cb.CH_PROP_NOTIFY_ENCRYPTION_REQUIRED
 		time.sleep(0.4)
-		cb.reset()
-		sys.exit()
+		print "Services:"
+		for s in p.services:
+			print "-" + str(s.uuid)
+		p.discover_characteristics(s)
+		
 	
 	def did_discover_characteristics(self, s, error):
+		print "Characteristics:"
+		for c in s.characteristics:
+			print "-" + str(c.uuid)
+		self.peripheral.set_notify_value(c, False)
 		pass
 	
 	def did_write_value(self, c, error):
