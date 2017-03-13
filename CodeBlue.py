@@ -37,14 +37,12 @@ class codeBlue (object):
 	def did_fail_to_connect_peripheral(self, p, error):
 		print "Failed to connect."
 		cb.reset()
-		cb.stop_scan()
-		sys.exit()
+		pass
 	
 	def did_disconnect_peripheral(self, p, error):
 		print "Disconnected."
 		cb.reset()
-		cb.stop_scan()
-		sys.exit()
+		pass
 	
 	def did_discover_services(self, p, error):
 		cb.get_state()
@@ -79,9 +77,11 @@ class codeBlue (object):
 		pass
 	
 	def did_write_value(self, c, error):
+		time.sleep(2)
 		pass
 	
 	def did_update_value(self, c, error):
+		time.sleep(2)
 		pass
 
 delegate = codeBlue()
