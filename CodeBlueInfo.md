@@ -4,9 +4,9 @@ to most LE Bluetooth devices and
 preform scans to locate sources for
 information. Sadly the python module
 is a bit glitchly with the latest iOS
-update so connects to gather the info
+update so connections to gather the info
 are not working (I've been trying for
-4 hours), so for now it main accesses
+4 hours), so for now it mainly accesses
 and then shows services.
 
 `The Future`
