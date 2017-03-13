@@ -36,12 +36,11 @@ class codeBlue (object):
 	
 	def did_fail_to_connect_peripheral(self, p, error):
 		print "Failed to connect."
-		cb.reset()
 		pass
 	
 	def did_disconnect_peripheral(self, p, error):
 		print "Disconnected."
-		cb.reset()
+		self.peripheral = None
 		pass
 	
 	def did_discover_services(self, p, error):
