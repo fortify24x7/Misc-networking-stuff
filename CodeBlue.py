@@ -20,7 +20,7 @@ class codeBlue (object):
 		pass
 	
 	def did_connect_peripheral(self, p):
-		p.discover_services('180F')
+		p.discover_services()
 		print ""
 		for i in range(4):
 			sys.stdout.write("\rSending Payload" + "." * i)
