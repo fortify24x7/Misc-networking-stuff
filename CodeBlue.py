@@ -17,7 +17,6 @@ class codeBlue (object):
 	def did_discover_peripheral(self, p):
 		self.peripheral = p
 		cb.connect_peripheral(p)
-		pass
 	
 	def did_connect_peripheral(self, p):
 		p.discover_services()
@@ -32,16 +31,14 @@ class codeBlue (object):
 		sys.stdout.write("PWNED\n")
 		console.set_font()
 		console.set_color()
-		pass
 	
 	def did_fail_to_connect_peripheral(self, p, error):
 		print "Failed to connect."
-		pass
+		cb.connect_peripheral(p)
 	
 	def did_disconnect_peripheral(self, p, error):
 		print "Disconnected."
 		self.peripheral = None
-		pass
 	
 	def did_discover_services(self, p, error):
 		cb.get_state()
@@ -72,16 +69,12 @@ class codeBlue (object):
 		print "Characteristics:"
 		for c in s.characteristics:
 			print "-" + str(c.uuid)
-		self.peripheral.set_notify_value(c, False)
-		pass
 	
 	def did_write_value(self, c, error):
-		time.sleep(2)
-		pass
+		time.sleep(0.5)
 	
 	def did_update_value(self, c, error):
-		time.sleep(2)
-		pass
+		time.sleep(0.5)
 
 delegate = codeBlue()
 for i in range(4):
