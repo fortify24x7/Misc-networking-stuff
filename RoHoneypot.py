@@ -1,5 +1,5 @@
 from binascii import hexlify
-import os, socket, sys, threading, traceback, SocketServer, logging, paramiko, time, re
+import os, socket, sys, threading, traceback, SocketServer, logging, paramiko, time
 from paramiko.py3compat import b, u
 
 try:
@@ -42,10 +42,10 @@ def deepscan(target,f=None):
 	print d1
 	print d2
 	print d3
-	f.write("asdf;"+target+"\n")
+	f.write("-"+target+"\n")
 	f.write(d1+"\n")
 	f.write(d2+"\n")
-	f.write(d3+"lkjh#\n\n")
+	f.write(d3+"\n\n")
 	print ""
 
 def deepscan2(target,chan):
