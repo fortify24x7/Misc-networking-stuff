@@ -1,6 +1,24 @@
 from binascii import hexlify
-import os, socket, sys, threading, traceback, SocketServer, logging, paramiko, time
+import os, socket, sys, threading, traceback, SocketServer, logging, paramiko, time, argparse
+from Crypto.PublicKey import RSA
 from paramiko.py3compat import b, u
+
+parser = argparse.ArgumentParser(description='Create A Honeypot For Hackers')
+parser.add_argument('-r', "--random", help='Create new keypairs constantly',action="store_true")
+args = parser.parse_args()
+ran = args.random
+
+def new_key():
+	key = RSA.generate(2048)
+	with open("rsa.key", 'w') as content_file:
+		os.chmod("rsa.key", 0600)
+		content_file.write(key.exportKey('PEM'))
+	pubkey = key.publickey()
+	with open("pub.key", 'w') as content_file:
+		content_file.write(pubkey.exportKey('OpenSSH'))
+
+if ran:
+	new_key()
 
 try:
 	import console
@@ -42,11 +60,11 @@ def deepscan(target,f=None):
 	print d1
 	print d2
 	print d3
+	print ""
 	f.write("-"+target+"\n")
 	f.write(d1+"\n")
 	f.write(d2+"\n")
 	f.write(d3+"\n\n")
-	print ""
 
 def deepscan2(target,chan):
 	data = str(socket.gethostbyaddr(target))
@@ -89,6 +107,8 @@ class Server(paramiko.ServerInterface):
 		f = open("blocked.dat","r")
 		data = str(f.readlines()).find(self.client_address[0])
 		if data > 1:
+			if ran:
+				new_key()
 			return paramiko.BadAuthenticationType
 		else:
 			f = open("blocked.dat","a")
@@ -110,20 +130,21 @@ class SSHHandler(SocketServer.StreamRequestHandler):
 		try:
 			t = paramiko.Transport(self.connection)
 			t.add_server_key(host_key)
-			server = Server(self.client_address)
+			server2 = Server(self.client_address)
 			try:
-				t.start_server(server=server)
+				t.start_server(server=server2)
 			except paramiko.SSHException:
 				print "*** SSH Failed"
-				return
+			except:
+				pass
 			
 			chan = t.accept(20)
 			if chan is None:
 				t.close()
 				return
 			
-			server.event.wait(10)
-			if not server.event.is_set():
+			server2.event.wait(10)
+			if not server2.event.is_set():
 				t.close()
 				return
 			
@@ -146,5 +167,5 @@ class SSHHandler(SocketServer.StreamRequestHandler):
 			except:
 				pass
 
-sshserver = SocketServer.ThreadingTCPServer(("192.168.1.76", PORT), SSHHandler)
+sshserver = SocketServer.ThreadingTCPServer(("192.168.1.68", PORT), SSHHandler)
 sshserver.serve_forever()
