@@ -42,7 +42,7 @@ except:
 
 PORT = 2222
 LOG_FILE = "Honeypot.log"
-msg1 = "\t[1;43;37m   -=-=- Honeypot v1.3.3 -=-=-   \r\n"
+msg1 = "\t[1;90;43m-=-=- Honeypot v1.3.3 -=-=-\r\n"
 DENY_ALL = False
 PASSWORDS = [
 "root",
@@ -73,9 +73,9 @@ def deepscan2(target,chan):
 	d1 = "-Name: "+data[0]
 	d2 = "-FQDN: "+data[1]
 	d3 = "-Provider: "+data[2]
-	chan.send("\t"+d1+"\r\n")
-	chan.send("\t"+d2+"\r\n")
-	chan.send("\t"+d3+"\r\n")
+	chan.send("   "+d1+"\r\n")
+	chan.send("   "+d2+"\r\n")
+	chan.send("   "+d3+"\r\n")
 
 logger = logging.getLogger("access.log")
 logger.setLevel(logging.INFO)
@@ -100,7 +100,7 @@ class Server(paramiko.ServerInterface):
 	def check_auth_password(self, username, password):
 		logger.info("-=-=- %s -=-=-\nUser: %s\nPassword: %s\n" % (self.client_address[0], username, password))
 		
-		print " IP: %s\n User: %s\n Pass: %s" % (self.client_address[0], username, password)
+		print " IP: %s\n User: %s\n Pass: %s\n" % (self.client_address[0], username, password)
 			
 		if DENY_ALL == True:
 			return paramiko.AUTH_FAILED
@@ -109,7 +109,7 @@ class Server(paramiko.ServerInterface):
 		if data > 1:
 			if ran:
 				new_key()
-			return paramiko.BadAuthenticationType
+			return paramiko.PasswordRequiredException
 		else:
 			f = open("blocked.dat","a")
 			deepscan(self.client_address[0],f)
@@ -135,6 +135,8 @@ class SSHHandler(SocketServer.StreamRequestHandler):
 				t.start_server(server=server2)
 			except paramiko.SSHException:
 				print "*** SSH Failed"
+			except KeyboardInterrupt:
+				pass
 			except:
 				pass
 			
@@ -142,17 +144,16 @@ class SSHHandler(SocketServer.StreamRequestHandler):
 			if chan is None:
 				t.close()
 				return
-			
 			server2.event.wait(10)
 			if not server2.event.is_set():
 				t.close()
 				return
 			
-			chan.send(msg1 + "\t")
+			chan.send(msg1)
 			for i in range(101):
-				chan.send("\r\t\t Loading "+str(i)+" of 100 ")
+				chan.send("\r\t     Loading "+str(i)+" of 100    ")
 				time.sleep(0.001)
-			chan.send("\r\n\r\n\tCongrats All Cerious Hackers!\r\n\tYou have all walked into a Honeypot!\r\n\tYou will now be blocked from joining \r\n\tthis server and your IP address\r\n\tinformation has been reported into the\r\n\tfollowing report:\r\n\r\n")
+			chan.send("\r\n\r\n   Congrats All Cerious Hackers!\r\n   You have all walked into a Honeypot!\r\n   You will now be blocked from joining \r\n   this server and your IP address\r\n   information has been reported into the\r\n   following report:\r\n\r\n")
 			deepscan2(self.client_address[0],chan)
 			
 			chan.send("\r\n\r\n\r\n\tNow GTFO my Honeypot")
