@@ -8,7 +8,8 @@ except:
   print "Once that is done all you need to do is run:"
   print ">>> import scantypes"
   print ">>> scantypes.sigscan(file,size)"
-  print binwalk link:
+  print "binwalk link: https://github.com/devttys0/binwalk"
+  sys.exit()
   
 def sigscan(fl,font=8):
 	console.set_font("Menlo",font)
