@@ -13,13 +13,11 @@ def func_bytes(fl):
 			print t, co.consts
 		except:
 			pass
-	time.sleep(2)
 	console.set_font("Menlo",10)
 	f = open(fl).readlines()
 	for line in f:
 		try:
 			dis.dis(line)
-			time.sleep(0.001)
 		except:
 			pass
 	console.set_font()
