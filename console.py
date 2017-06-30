@@ -2,8 +2,7 @@
 import sys
 
 try:
-	import console
-	console.set_color()
+	import objc_util
 	print "You are running Pythonista,\nyou dont need this!"
 	print "THIS FILE WILL BE AUTOMATICALLY DELETED"
 	import os
