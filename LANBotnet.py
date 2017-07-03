@@ -27,7 +27,7 @@ if srvs > 0:
 		if named:
 			servers.append([named+str(i),random.choice(range(10000,31000))])
 		else:
-			servers.append([str(i+1) + " " + "".join(random.sample(string.ascii_letters,15)), random.choice(range(10000,31000))])
+			servers.append([str(i) + " " + "".join(random.sample(string.ascii_letters,15)), random.choice(range(10000,31000))])
 
 ip = "255.255.255.255"
 port = 4445
@@ -45,11 +45,11 @@ for i in range(len(servers)):
 if verbose:
 	print "\n"
 	for _ in servers:
-		print _
+		print _[0] + " - "+str(_[1])
 else:
 	for _ in servers:
-		sys.stdout.write("\r"+str(_))
-		time.sleep(0.2)
+		sys.stdout.write("\r"+_[0]+" - "+str(_[1])+"   ")
+		time.sleep(0.05)
 	print ""
 
 def checksum():
