@@ -59,7 +59,10 @@ def reboot(timeout=2):
 	try:
 		s.connect((str(tpg), int(tpg)))
 		time.sleep(0.1)
-		s.send(u"\0xE0F")
+		s.send(u"`REBOOT`")
+		s.close()
+		time.sleep(1)
+		s.connect((str(tpg), int(tpg)))
 	except:
 		print "UPnP Device Rebooted"
 	s.close()
