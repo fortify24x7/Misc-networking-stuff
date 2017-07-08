@@ -97,11 +97,12 @@ def begin():
 	sys.stdout.write("           \r")
 	console.write_link("End Recording",path2)
 
-try:
-	if sys.argv[1] == "b":
-		start_recording()
-	if sys.argv[1] == "s":
-		stop_recording()
-except:
-	begin()
-	pass
+if __name__ == "__main__":
+	try:
+		if sys.argv[1] == "b":
+			start_recording()
+		if sys.argv[1] == "s":
+			stop_recording()
+	except:
+		begin()
+		pass
