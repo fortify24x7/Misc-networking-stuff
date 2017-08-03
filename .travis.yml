@@ -4,3 +4,5 @@ python:
 branches:
   only:
     - master
+sudo: false
+os: Pythonista 3
