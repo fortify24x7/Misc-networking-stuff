@@ -2,5 +2,4 @@ binwalk
 requests
 urllib
 urllib2
-re
 bs4
