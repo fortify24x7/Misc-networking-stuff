@@ -6,4 +6,4 @@ branches:
     - master
 sudo: false
 os: Pythonista 3
-script: searchline.py
+script: python searchline.py
