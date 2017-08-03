@@ -1,1 +1,3 @@
 binwalk
+requests
+urllib
