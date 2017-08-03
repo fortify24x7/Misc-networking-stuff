@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/travis-ci/travis-api.svg?branch=master)](https://travis-ci.org/RussianOtter/networking)
+[![Build Status](https://travis-ci.org/RussianOtter/networking.svg?branch=master)](https://travis-ci.org/RussianOtter/networking)
 
 # networking
 This repository contains a wide range of network-related programs and applications!
