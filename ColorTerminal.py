@@ -1,4 +1,4 @@
-# Version 9.0.1 Omega
+# Version 9.2.1 Omega
 # Made for Pythonista 3
 # By: SavSec
 # - I Don't Give A Fuck License -
@@ -7,10 +7,12 @@
 
 import clipboard, random, sys, os, time, console
 
-rainbowfade = ["#ff0000","#ff4909","#ff7100","#ffac00","#eeff00","#b1ff00",'#27ff00','#09ff00','#00ff21','#00ff9b','#00ffd8','#00deff','#009bff','#0059ff','#0016ff','#5700ff','#b100ff','#f400ff','#ff00c8','#ff0085','#ff0043']
-bloodfade = ["#cc0000","#bb0000","#aa0000","#990000","#880000","#770000","#880000","#990000","#aa0000","#bb0000"]
-bluefade = ["#0000cc","#0000bb","#0000aa","#000099","#000088","#000077","#000088","#000099","#0000aa","#0000bb"]
-rainbow = ["#ff0000","#ff8500","#f2ff00","#00ff00","#00ffff","#0000ff","#ff00ff"]
+rainbowfade = "#ff0000","#ff4909","#ff7100","#ffac00","#eeff00","#b1ff00",'#27ff00','#09ff00','#00ff21','#00ff9b','#00ffd8','#00deff','#009bff','#0059ff','#0016ff','#5700ff','#b100ff','#f400ff','#ff00c8','#ff0085','#ff0043'
+bloodfade = "#cc0000","#bb0000","#aa0000","#990000","#880000","#770000","#880000","#990000","#aa0000","#bb0000"
+bluefade = "#0000cc","#0000bb","#0000aa","#000099","#000088","#000077","#000088","#000099","#0000aa","#0000bb"
+rainbow = "#ff0000","#ff8500","#f2ff00","#00ff00","#00ffff","#0000ff","#ff00ff"
+
+global colors
 
 def bloodforum():
 	# BloodForum is used on Hacker's Forum Page To Make Blood Text
@@ -265,10 +267,8 @@ def RegularMulticolor(colors):
 		pass
 
 def AutoLength(colors):
-	# RainfadeAuto Provides a Smooth Transition In Between Each Set Of Color
-	# This version automatically increases the length of color as the message gets bigger
-	# Auto Adjustment Code By: 
-	colors = ["#ff0000","#ff4909","#ff7100","#ffac00","#eeff00","#b1ff00",'#27ff00','#09ff00','#00ff21','#00ff9b','#00ffd8','#00deff','#009bff','#0059ff','#0016ff','#5700ff','#b100ff','#f400ff','#ff00c8','#ff0085','#ff0043']
+	# Auto Adjustment Code By: PotatoGod
+	# Debugging By: SavSec
 	s = 0
 	new = ""
 	msgb = ""
@@ -278,9 +278,9 @@ def AutoLength(colors):
 			if msg == "!quit":
 				break
 			if len(msg) >= 42:
-				print " - MSG too long, change it a bit (current message set to clipboard -)"
+				print " - MSG too long, change it a bit (current message set to clipboard) a"
 				clipboard.set(msg)
-				msg = " "
+				msg = "NONEan"
 			step = 0
 			while 1:
 				step = step + 1
@@ -291,7 +291,6 @@ def AutoLength(colors):
 						s = 0
 					if _ == " " or cs < step:
 						new = new + _
-						s = s - 1
 					else:
 						new = new + colors[s].replace("#","[") + "]" + _
 						cs = 0
@@ -301,10 +300,11 @@ def AutoLength(colors):
 					break
 				else:
 					new = " "
-			try:
-				clipboard.set("[c][b]" + new)
-			except:
-				pass
+			if msg != "NONEan":
+				try:
+					clipboard.set("[c][b]" + new)
+				except:
+					pass
 			new = ""
 			msgb = ""
 			s = 0
@@ -327,6 +327,18 @@ def colorhelp():
 	time.sleep(0.3)
 	print "BlueFade - bluefade | r1"
 	time.sleep(0.3)
+	print "L33T     - leet | l3"
+	time.sleep(0.3)
+	print "Italics  - italic | i"
+	time.sleep(0.3)
+	print "Captcha  - captcha | cap"
+	time.sleep(0.3)
+	print "Underline - underline | u2"
+	time.sleep(0.3)
+	print "Updown   - updown | ud"
+	time.sleep(0.3)
+	print "L33T      - leet | l3"
+	time.sleep(0.3)
 	print "Exit      - q | exit"
 	time.sleep(0.3)
 	print "Back      - cd | back"
@@ -344,9 +356,9 @@ while 1:
 	except:
 		pass
 	console.set_color()
-	if data == "auto" or data == "a" or data == "stable":
+	if data == "r" or data == "reg" or data == "regular":
 		while 1:
-			location = "AutoStablize"
+			location = "Regular"
 			act = "\n~/" + str(location) + "$: "
 			console.set_color(1,1,1)
 			try:
@@ -362,6 +374,18 @@ while 1:
 				RegularMulticolor(bloodfade)
 			if data == "bluefade" or data == "b2":
 				RegularMulticolor(bluefade)
+			if data == "captcha" or data == "cap":
+				captcha()
+			if data == "italics" or data == "i":
+				italics()
+			if data == "leet" or data == "l":
+				l33t()
+			if data == "updown" or data == "ud":
+				updown()
+			if data == "underline" or data == "u2":
+				liner()
+			if data == "undercolor" or data == "u1":
+				undercolor()
 			if data == "quit" or data == "q" or data == "exit":
 				sys.exit()
 			if data == "clear" or data == "cls" or data == "clr":
@@ -370,9 +394,9 @@ while 1:
 				break
 			if data == "?" or data == "help":
 				colorhelp()
-	if data == "regular" or data == "r" or data == "reg":
+	if data == "a" or data == "auto" or data == "stable":
 		while 1:
-			location = "Regular"
+			location = "AutoStablized"
 			act = "\n~/" + str(location) + "$: "
 			console.set_color(1,1,1)
 			try:
@@ -387,7 +411,19 @@ while 1:
 			if data == "blood" or data == "b1":
 				AutoLength(bloodfade)
 			if data == "bluefade" or data == "b2":
-				AutoLength()(bluefade)
+				AutoLength(bluefade)
+			if data == "captcha" or data == "cap":
+				captcha()
+			if data == "italics" or data == "i":
+				italics()
+			if data == "leet" or data == "l":
+				l33t()
+			if data == "updown" or data == "ud":
+				updown()
+			if data == "underline" or data == "u2":
+				liner()
+			if data == "undercolor" or data == "u1":
+				undercolor()
 			if data == "quit" or data == "q" or data == "exit":
 				sys.exit()
 			if data == "clear" or data == "cls" or data == "clr":
@@ -408,7 +444,7 @@ while 1:
 		time.sleep(0.3)
 		print "Regular   - r | regular | reg"
 		time.sleep(0.3)
-		print "Stablized - s | auto | stable"
+		print "Stablized - a | auto | stable"
 		time.sleep(0.3)
 		print "Exit       - q : exit"
 		time.sleep(0.3)
