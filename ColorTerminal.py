@@ -295,7 +295,7 @@ def AutoLength(colors):
 				n = 10
 			if len(msg) > 110 and len(msg) <= 126:
 				n = 11
-			else:
+			elif len(msg) >= 127:
 				n = 15
 			msg = [msg[i:i + n] for i in xrange(0, len(msg), n)]
 			for _ in msg:
