@@ -1,9 +1,7 @@
-# Version 9.2.1 Omega
+# Version 9.3.1 Omega
 # Made for Pythonista 3
 # By: SavSec
 # - I Don't Give A Fuck License -
-# AutoStablize v2: PotatoGod
-# AutoStablize Debugging: SavSec
 
 import clipboard, random, sys, os, time, console
 
@@ -267,8 +265,6 @@ def RegularMulticolor(colors):
 		pass
 
 def AutoLength(colors):
-	# Auto Adjustment Code By: PotatoGod
-	# Debugging By: SavSec
 	s = 0
 	new = ""
 	msgb = ""
@@ -277,39 +273,44 @@ def AutoLength(colors):
 			sys.stderr = msg = unicode(raw_input("Message: "))
 			if msg == "!quit":
 				break
-			if len(msg) >= 42:
-				print " - MSG too long, change it a bit (current message set to clipboard) a"
-				clipboard.set(msg)
-				msg = "NONEan"
-			step = 0
-			while 1:
-				step = step + 1
-				cs = step
-				msg = list(msg)
-				for _ in msg:
-					if s >= len(colors):
-						s = 0
-					if _ == " " or cs < step:
-						new = new + _
-					else:
-						new = new + colors[s].replace("#","[") + "]" + _
-						cs = 0
-						s = s + 1
-					cs = cs + 1
-				if len(new) < 210:
-					break
+			if len(msg) >= 1 and len(msg) <= 22:
+				n = 1
+			if len(msg) > 22 and len(msg) <= 38:
+				n = 2
+			if len(msg) > 38 and len(msg) <= 54:
+				n = 3
+			if len(msg) > 54 and len(msg) <= 68:
+				n = 4
+			if len(msg) > 68 and len(msg) <= 75:
+				n = 5
+			if len(msg) > 75 and len(msg) <= 84:
+				n = 6
+			if len(msg) > 84 and len(msg) <= 91:
+				n = 7
+			if len(msg) > 91 and len(msg) <= 99:
+				n = 8
+			if len(msg) > 99 and len(msg) <= 108:
+				n = 9
+			if len(msg) > 108 and len(msg) <= 110:
+				n = 10
+			if len(msg) > 110 and len(msg) <= 126:
+				n = 11
+			else:
+				n = 15
+			msg = [msg[i:i + n] for i in xrange(0, len(msg), n)]
+			for _ in msg:
+				if s >= len(colors):
+					s = 0
+				if _ == " ":
+					new = new + _
+					s = s - 1
 				else:
-					new = " "
-			if msg != "NONEan":
-				try:
-					clipboard.set("[c][b]" + new)
-				except:
-					pass
+					new = new + colors[s].replace("#","[") + "]" + _
+				s = s + 1
+			clipboard.set("[c][b]"+new)
 			new = ""
 			msgb = ""
 			s = 0
-			step = 0
-			cs = 0
 	except:
 		pass
 
