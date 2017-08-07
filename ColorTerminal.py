@@ -322,11 +322,11 @@ def colorhelp():
 	time.sleep(0.3)
 	print "Rainbow  - rainbow | r1"
 	time.sleep(0.3)
-	print "Rainfade - rainfade | r1"
+	print "Rainfade - rainfade | r2"
 	time.sleep(0.3)
 	print "Blood    - blood | b1"
 	time.sleep(0.3)
-	print "BlueFade - bluefade | r1"
+	print "BlueFade - bluefade | b2"
 	time.sleep(0.3)
 	print "L33T     - leet | l3"
 	time.sleep(0.3)
@@ -338,7 +338,7 @@ def colorhelp():
 	time.sleep(0.3)
 	print "Updown   - updown | ud"
 	time.sleep(0.3)
-	print "L33T      - leet | l3"
+	print "Undercolor - undercolor | u1"
 	time.sleep(0.3)
 	print "Exit      - q | exit"
 	time.sleep(0.3)
