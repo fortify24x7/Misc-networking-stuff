@@ -1,16 +1,111 @@
-# Version 9.3.1 Omega
+# Version 9.2.1 Omega
 # Made for Pythonista 3
 # By: SavSec
 # - I Don't Give A Fuck License -
+# Debugging: SavSec, PotatoGod
+# API Script: SavSec
 
-import clipboard, random, sys, os, time, console
+import clipboard, random, sys, os, time, console, traceback
 
+verbose = False
+try:
+	if sys.argv[1] == "-v":
+		verbose = True
+		print "Verbose: ON\n"
+except:
+	pass
+
+purplefade = ["#5700ff",'#5300f3','#4f00e7','#4b00db','#4600cd','#4100bf','#3d00b3','#3900a7','#35009b','#30008e','#35009b','#3900a7','#3d00b3','#4100bf','#4600ce','#4a00da','#4f00e7','#5300f3']
 rainbowfade = "#ff0000","#ff4909","#ff7100","#ffac00","#eeff00","#b1ff00",'#27ff00','#09ff00','#00ff21','#00ff9b','#00ffd8','#00deff','#009bff','#0059ff','#0016ff','#5700ff','#b100ff','#f400ff','#ff00c8','#ff0085','#ff0043'
 bloodfade = "#cc0000","#bb0000","#aa0000","#990000","#880000","#770000","#880000","#990000","#aa0000","#bb0000"
 bluefade = "#0000cc","#0000bb","#0000aa","#000099","#000088","#000077","#000088","#000099","#0000aa","#0000bb"
 rainbow = "#ff0000","#ff8500","#f2ff00","#00ff00","#00ffff","#0000ff","#ff00ff"
 
 global colors
+
+def execute_api():
+	print "   - Color Execution API - "
+	time.sleep(0.3)
+	print "To run a loaded api color"
+	print "type \"e:<name>|<file>\" and"
+	print "the api color will run!"
+	print "\nExample:"
+	print " e:rainfade|colors.api"
+	time.sleep(0.3)
+
+def write_api():
+	print "   - Color Writing API - "
+	time.sleep(0.3)
+	print "To write your own color and"
+	print "have it stored om your local"
+	print "device for later usage, type"
+	print " \"w:<file>!<name>|#hex,#hex\""
+	print "\nExample:"
+	print " w:colors.api!dark:d1|#484848,#585858,#686868"
+	time.sleep(0.3)
+	
+def loading_api():
+	print "   - Loading Colors API - "
+	time.sleep(0.3)
+	print "Once you have a collection of"
+	print "api colors stored, you can call"
+	print "them back into the program by"
+	print "typing \"l:<file>\""
+	time.sleep(0.3)
+	print "\nExample:"
+	print " l:colors.api"
+
+def parse_color(line):
+	try:
+		if line.startswith("e:"):
+			ec = line[2:].split("|")
+			f = open(ec[1]).readlines()
+			for _ in f:
+				if ec[0] in _:
+					lin = _.replace("\n","")
+					break
+			ec = lin.split("|")
+			ec[1] = '"'+ec[1].replace(",",'","')
+			ex = ec[0] + "=" +ec[1]
+			try:
+				exec ex
+				exec "AutoLength(%s)" %(ec[0])
+			except:
+				print "Failed 1"
+				pass
+		
+		if line.startswith("w:"):
+			f = open(line[2:].split("!")[0],"a")
+			f.write(line[2:].split("!")[1]+'"'+"\n")
+			f.close()
+		
+		if line.startswith("l:"):
+			f = open(line[2:]).readlines()
+			for _ in f:
+				par = _.split("|")
+				par[1] = '"'+par[1].replace(",",'","')
+				name = par[0]
+				ex = name + "=" +par[1]
+				try:
+					exec "global "+name
+					exec ex
+					print "Loaded:",name
+				except Exception as e:
+					traceback.print_exc(e)
+					print "Failed 1"
+					pass
+	except Exception as e:
+		if verbose: traceback.print_exc(e)
+		pass
+	
+	elif ":" not in line and "!" not in line:
+		print
+		loading_api()
+		print "\n"
+		write_api()
+		print "\n"
+		execute_api()
+		print
 
 def bloodforum():
 	# BloodForum is used on Hacker's Forum Page To Make Blood Text
@@ -23,6 +118,7 @@ def bloodforum():
 		while 1:
 			msg = unicode(raw_input("Message: "))
 			if msg == "!quit":
+				if verbose: print "Stopped"
 				break
 			msg = [msg[i:i+n] for i in range(0, len(msg), n)]
 			for _ in msg:
@@ -39,7 +135,8 @@ def bloodforum():
 				s = s + 1
 			clipboard.set(new)
 			new = ""
-	except:
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def updown():
@@ -52,6 +149,7 @@ def updown():
 		while 1:
 			sys.stderr = msg = unicode(raw_input("Message: "))
 			if msg == "!quit":
+				if verbose: print "Stopped"
 				break
 			if len(msg) >= 100:
 				msgb = msg[100:]
@@ -67,9 +165,11 @@ def updown():
 					new = new + colors[s].replace("#","[") + "]" + _ + " "
 				s = s + 1
 			clipboard.set("[c][b][efffff]" + new + msgb)
+			if verbose: print "Copied"
 			new = ""
 			msgb = ""
-	except:
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def captcha():
@@ -82,6 +182,7 @@ def captcha():
 		while 1:
 			sys.stderr = msg = unicode(raw_input("Message: ").replace("a","4").replace("e","3").replace("t","7").replace("i","1").replace("o","0").replace("B","8").replace("s","5"))
 			if msg == "!quit":
+				if verbose: print "Stopped"
 				break
 			if len(msg) >= 100:
 				msgb = msg[100:]
@@ -97,9 +198,11 @@ def captcha():
 					new = new + colors[s].replace("#","[") + "]" + _
 				s = s + 1
 			clipboard.set("[c][b][efffff]" + new + msgb)
+			if verbose: print "Copied"
 			new = ""
 			msgb = ""
-	except:
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def italics():
@@ -112,6 +215,7 @@ def italics():
 		while 1:
 			sys.stderr = msg = unicode(raw_input("Message: "))
 			if msg == "!quit":
+				if verbose: print "Stopped"
 				break
 			if len(msg) >= 100:
 				msgb = msg[100:]
@@ -127,9 +231,11 @@ def italics():
 					new = new + colors[s].replace("#","[") + "]" + _
 				s = s + 1
 			clipboard.set("[c][b][efffff]" + new + msgb)
+			if verbose: print "Copied"
 			new = ""
 			msgb = ""
-	except:
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def liner():
@@ -142,6 +248,7 @@ def liner():
 		while 1:
 			sys.stderr = msg = unicode(raw_input("Message: "))
 			if msg == "!quit":
+				if verbose: print "Stopped"
 				break
 			if len(msg) >= 100:
 				msgb = msg[100:]
@@ -157,14 +264,17 @@ def liner():
 					new = new + colors[s].replace("#","[") + "]" + _
 				s = s + 1
 			clipboard.set("[c][b][efffff]" + new + msgb)
+			if verbose: print "Copied"
 			new = ""
 			msgb = ""
-	except:
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def undercolor():
 	# Undercolor Provides a Under Beam of Colour
 	colors = ["#ff0000"]
+	colors = rainbowfade
 	s = 0
 	new = ""
 	msgb = ""
@@ -172,6 +282,7 @@ def undercolor():
 		while 1:
 			sys.stderr = msg = unicode(raw_input("Message: "))
 			if msg == "!quit":
+				if verbose: print "Stopped"
 				break
 			if len(msg) <= 11:
 				n = 1
@@ -180,7 +291,7 @@ def undercolor():
 			elif 18 < len(msg) <= 32:
 				n = 3
 			elif 32 < len(msg) <= 50:
-				n = 5
+				n = 4
 			msg = [msg[i:i+n] for i in range(0, len(msg), n)]
 			if len(msg) >= 25:
 				msgb = msg[25:]
@@ -192,17 +303,25 @@ def undercolor():
 				new = new + colors[s].replace("#","[") + "]" + u"\u0332" + "[efffff]" + _
 				s = s + 1
 			clipboard.set("[c][b]" + new + msgb)
+			if verbose: print "Copied"
 			new = ""
 			msgb = ""
 			s = s
-	except:
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def l33t():
 	try:
 		while 1:
-			clipboard.set("[c][b][00ff00]"+unicode(raw_input("Message: ").replace("a","4").replace("e","3").replace("t","7").replace("i","1").replace("o","0").replace("B","8").replace("s","5")))
-	except:
+			sys.stderr = msg = unicode(raw_input("Message: "))
+			if msg == "!quit":
+				if verbose: print "Stopped"
+				break
+			clipboard.set("[c][b][00ff00]"+unicode(msg.replace("a","4").replace("e","3").replace("t","7").replace("i","1").replace("o","0").replace("B","8").replace("s","5")))
+			if verbose: print "Copied"
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def fancy(cl="ord"):
@@ -223,15 +342,27 @@ def fancy(cl="ord"):
 		try:
 			while 1:
 				for _ in ord:
-					clipboard.set(_ % unicode(raw_input("Message: ")))
-		except:
+					sys.stderr = msg = unicode(raw_input("Message: "))
+					if msg == "!quit":
+						if verbose: print "Stopped"
+						break
+					clipboard.set(_ %(msg))
+					if verbose: print "Copied"
+		except Exception as e:
+			if verbose: print traceback.print_exc(file=sys.stdout)
 			pass
 	if cl == "ran":
 		try:
 			while 1:
 				_ = random.choice(ord)
-				clipboard.set(_ % unicode(raw_input("Message: ")))
-		except:
+				sys.stderr = msg = unicode(raw_input("Message: "))
+				if msg == "!quit":
+					if verbose: print "Stopped"
+					break
+				clipboard.set(_ % (msg))
+				if verbose: print "Copied"
+		except Exception as e:
+			if verbose: print traceback.print_exc(file=sys.stdout)
 			pass
 
 def RegularMulticolor(colors):
@@ -242,6 +373,7 @@ def RegularMulticolor(colors):
 		while 1:
 			sys.stderr = msg = unicode(raw_input("Message: "))
 			if msg == "!quit":
+				if verbose: print "Stopped"
 				break
 			msg = unicode(msg)
 			if len(msg) >= 22:
@@ -258,10 +390,12 @@ def RegularMulticolor(colors):
 					new = new + colors[s].replace("#","[") + "]" + _
 				s = s + 1
 			clipboard.set("[c][b]" + new + msgb)
+			if verbose: print "Copied"
 			new = ""
 			msgb = ""
 			s = 0
-	except:
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def AutoLength(colors):
@@ -272,6 +406,7 @@ def AutoLength(colors):
 		while 1:
 			sys.stderr = msg = unicode(raw_input("Message: "))
 			if msg == "!quit":
+				if verbose: print "Stopped"
 				break
 			if len(msg) >= 1 and len(msg) <= 22:
 				n = 1
@@ -308,10 +443,12 @@ def AutoLength(colors):
 					new = new + colors[s].replace("#","[") + "]" + _
 				s = s + 1
 			clipboard.set("[c][b]"+new)
+			if verbose: print "Copied"
 			new = ""
 			msgb = ""
 			s = 0
-	except:
+	except Exception as e:
+		if verbose: print traceback.print_exc(file=sys.stdout)
 		pass
 
 def colorhelp():
@@ -322,11 +459,11 @@ def colorhelp():
 	time.sleep(0.3)
 	print "Rainbow  - rainbow | r1"
 	time.sleep(0.3)
-	print "Rainfade - rainfade | r2"
+	print "Rainfade - rainfade | r1"
 	time.sleep(0.3)
 	print "Blood    - blood | b1"
 	time.sleep(0.3)
-	print "BlueFade - bluefade | b2"
+	print "BlueFade - bluefade | r1"
 	time.sleep(0.3)
 	print "L33T     - leet | l3"
 	time.sleep(0.3)
@@ -336,10 +473,13 @@ def colorhelp():
 	time.sleep(0.3)
 	print "Underline - underline | u2"
 	time.sleep(0.3)
+	print "UnderColor - undercolor | u1"
+	time.sleep(0.3)
 	print "Updown   - updown | ud"
 	time.sleep(0.3)
-	print "Undercolor - undercolor | u1"
+	print "L33T      - leet | l3"
 	time.sleep(0.3)
+	print "PurpleFade - purplefade | p1"
 	print "Exit      - q | exit"
 	time.sleep(0.3)
 	print "Back      - cd | back"
@@ -375,6 +515,8 @@ while 1:
 				RegularMulticolor(bloodfade)
 			if data == "bluefade" or data == "b2":
 				RegularMulticolor(bluefade)
+			if data == "purplefade" or data == "p1":
+				RegularMulticolor(purplefade)
 			if data == "captcha" or data == "cap":
 				captcha()
 			if data == "italics" or data == "i":
@@ -413,6 +555,8 @@ while 1:
 				AutoLength(bloodfade)
 			if data == "bluefade" or data == "b2":
 				AutoLength(bluefade)
+			if data == "purplefade" or data == "p1":
+				AutoLength(purplefade)
 			if data == "captcha" or data == "cap":
 				captcha()
 			if data == "italics" or data == "i":
@@ -437,6 +581,8 @@ while 1:
 		sys.exit()
 	if data == "clear" or data == "cls" or data == "clr":
 		console.clear()
+	if data[1] == ":" or data == "api" or data == "cc":
+		parse_color(data)
 	if data == "help" or data == "?":
 		print ""
 		console.set_font("Arial-BoldMT",16)
@@ -453,3 +599,4 @@ while 1:
 		time.sleep(0.3)
 		print "Clear      - cls : clear"
 		time.sleep(0.3)
+		print "API        - api : cc"
