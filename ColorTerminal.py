@@ -98,7 +98,7 @@ def parse_color(line):
 		if verbose: traceback.print_exc(e)
 		pass
 	
-	elif ":" not in line and "!" not in line:
+	if ":" not in line and "!" not in line:
 		print
 		loading_api()
 		print "\n"
