@@ -7,10 +7,10 @@
 	O	 U  G  +Copyright SavSec (c) 2017
 	M	 r  O  
 		 E  R  +Algorithms are intellectual
-		 N  I  so no Copyright allies
+		 N  I  so no Copyright except
 		 C  T  directly to ownership of the
-		 E	H  base algorithm.
-				M                  -MIT License-
+		 E  H  base algorithm.
+	      M                  -MIT License-
 
 """
 
