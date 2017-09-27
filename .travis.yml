@@ -6,4 +6,4 @@ branches:
     - master
 sudo: false
 os: Pythonista 3
-script: python __init__.py
+script: python2 __init__.py
