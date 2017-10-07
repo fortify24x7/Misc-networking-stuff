@@ -1,5 +1,3 @@
-binwalk
 requests
-urllib
 urllib2
 bs4
