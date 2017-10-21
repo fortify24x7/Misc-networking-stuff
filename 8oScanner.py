@@ -23,7 +23,6 @@ Formatting:
 
 License:
 	MIT License
-	
 """
 
 import shodan, sys, time, socket, argparse, json, requests, socket
