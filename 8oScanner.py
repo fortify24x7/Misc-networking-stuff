@@ -23,6 +23,7 @@ Formatting:
 
 License:
 	MIT License
+	
 """
 
 import shodan, sys, time, socket, argparse, json, requests, socket
@@ -41,8 +42,7 @@ class Censys:
 		self.SECRET = secret
 		self.ip = ip
 
-	def search(self):
-		pages = 1
+	def search(self,pages=1):
 		page = 1
 		while page <= pages:
 			params = {'query' : self.ip, 'page' : page}
@@ -177,6 +177,8 @@ def menu(value):
 		return "Censys"
 	if value.lower() == "all":
 		return "Shosys"
+	if value.lower() == "direct":
+		return "Direct"
 
 parser = argparse.ArgumentParser(description = "8oScanner Authentication")
 parser.add_argument("-s", "--shodan-api", help="Shodan API Key",default=None)
@@ -195,7 +197,6 @@ if len(str(SHODAN_API_KEY)) < 5:
 if len(str(CENSYS_API_KEY)) < 5:
 	censys_active = False
 	
-
 if sys.platform == "ios":
 	import console
 	time.sleep(1)
@@ -221,7 +222,7 @@ if sys.platform == "ios":
 		time.sleep(1)
 
 print "\nCommands:"
-print "[QUIT, AUTH, SHODAN, CENSYS, ABOUT, ALL, BACK]\n"
+print "[QUIT, AUTH, SHODAN, CENSYS, ABOUT, ALL, BACK, DIRECT]\n"
 
 mode = "Menu"
 while 1:
@@ -247,6 +248,9 @@ while 1:
 						mode = i
 						break
 					if i is "Shosys":
+						mode = i
+						break
+					if i is "Direct":
 						mode = i
 						break
 					print "[Shodan] Starting Search For %s" %q
@@ -277,12 +281,20 @@ while 1:
 					if i is "Shosys":
 						mode = i
 						break
+					if i is "Direct":
+						mode = i
+						break
 					print "[Censys] Starting Search For %s" %q
 					time.sleep(0.5)
 					print "[Censys] Querying API...\n"
 					time.sleep(1)
+					q = q.split(" ")
+					pages = 1
+					if len(q) == 2:
+						pages = q[1]
+						q = q[0]
 					censys = Censys(q,CENSYS_ID,CENSYS_API_KEY)
-					censys.search()
+					censys.search(pages)
 		elif mode == "Menu":
 			while 1:
 				a = raw_input("[Menu] >>> ")
@@ -297,6 +309,9 @@ while 1:
 					mode = i
 					break
 				if i is "Shosys":
+					mode = i
+					break
+				if i is "Direct":
 					mode = i
 					break
 		elif mode == "Shosys":
@@ -315,7 +330,32 @@ while 1:
 				if i is "Shosys":
 					mode = i
 					break
+				if i is "Direct":
+					mode = i
+					break
 				search(a,True)
+		elif mode == "Direct":
+			while 1:
+				a = raw_input("[Direct] >>> ")
+				i = menu(a)
+				if i is "break":
+					mode = "Menu"
+					break
+				if i is "Shodan":
+					mode = i
+					break
+				if i is "Censys":
+					mode = i
+					break
+				if i is "Shosys":
+					mode = i
+					break
+				if i is "Direct":
+					mode = i
+					break
+				a = socket.gethostbyname((a))
+				censys = Censys(a,CENSYS_ID,CENSYS_API_KEY)
+				censys.view(a)
 		else:
 			mode = "Menu"
 	except Exception as e:
