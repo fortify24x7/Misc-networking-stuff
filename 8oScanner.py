@@ -288,13 +288,8 @@ while 1:
 					time.sleep(0.5)
 					print "[Censys] Querying API...\n"
 					time.sleep(1)
-					q = q.split(" ")
-					pages = 1
-					if len(q) == 2:
-						pages = q[1]
-						q = q[0]
 					censys = Censys(q,CENSYS_ID,CENSYS_API_KEY)
-					censys.search(pages)
+					censys.search()
 		elif mode == "Menu":
 			while 1:
 				a = raw_input("[Menu] >>> ")
