@@ -1,3 +1,31 @@
+"""
+
+_____/\\\\\\\\\__________________        
+ ___/\\\///////\\\________________       
+  __\/\\\_____\/\\\________________      
+   __\///\\\\\\\\\/_______/\\\\\____     
+    ___/\\\///////\\\____/\\\///\\\__    
+     __/\\\______\//\\\__/\\\__\//\\\_   
+      _\//\\\______/\\\__\//\\\__/\\\__  
+       __\///\\\\\\\\\/____\///\\\\\/___ 
+        ____\/////////________\/////_____
+
+8o Scanner is a Multi-API information gathering tool developed to provide quick access to information on target sites or domains. More APIs coming soon!
+
+SavSec 8o (c) 2017
+@Russian_Otter (c) 2017
+
+Formatting:
+	Tab: 2
+	Encoding: UTF-8
+	Python: 2.7.11
+	iOS & PC Support
+
+License:
+	MIT License
+	
+"""
+
 import shodan, sys, time, socket, argparse, json, requests, socket
 from urllib2 import urlopen
 
