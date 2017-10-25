@@ -39,12 +39,14 @@ s.bind(("", port))
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 def encryption_handler(packet,key):
-	return packet.replace(key,"!!!key!!!")
+	p = packet.replace(key,"!!!key!!!")
+	p = p.replace(key[16:],"!!!sub!!!")
+	return p
 
 def daemon_hound():
 	while 1:
 		data = s.recv(5000)
-		if eval(data.split("\x0f")[0])[1] == "direct" and eval(data.split("\x0f")[0])[0] == ip:
+		if eval(data.split("\x0f")[0])[1] == "direct" and ip in data:
 			try:
 				DH.hellman_client(eval(data.split("\x0f")[0])[2])
 				v = "h_"+eval(data.split("\x0f")[0])[0].replace(".","")
@@ -55,23 +57,19 @@ def daemon_hound():
 					if len(str(globals()[v])) >= 32:
 						break
 				globals()[v] = str(globals()[v])[:32]
-				msg = raw_input("[%s] => " %eval(data.split("\x0f")[0])[0])
-				pack = encrypt(user+msg,globals()[v])
-				pack = encryption_handler(pack,globals()[v])
-				s.sendto(header(eval(data.split("\x0f")[0])[0],"dm")+pack,("255.255.255.255", port))
 			except:
 				pass
 			globals()["stop"] = True
 		
-		elif eval(data.split("\x0f")[0])[2] == "dm" and eval(data.split("\x0f")[0])[0] == ip:
+		elif eval(data.split("\x0f")[0])[2] == "dm" and eval(data.split("\x0f")[0])[1] == ip:
 			print
-			print decrypt(data.replace("!!!key!!!",globals()[v]).split("\x0f")[1])
+			print decrypt(data.replace("!!!key!!!",globals()[v]).replace("!!!sub!!!",globals()[v][16:]).split("\x0f")[1])
 		
 		else:
 			data = data.split("\x0f")
-			if eval(data[0])[0] == ip:
-				print
-				print decrypt(data[1])
+			d = decrypt(data[1])
+			if d != None:
+				print "\n"+d
 
 daemon = threading.Thread(target=daemon_hound)
 daemon.daemon = True
@@ -87,6 +85,8 @@ while 1:
 		msg = raw_input("\n=> ")
 	except:
 		break
+	if len(msg) == 0:
+		msg = "0"
 	data = header() + encrypt(user+msg,key)
 	d_host = raw_input("HOST => ")
 	direct = header("direct",d_host)
@@ -97,5 +97,17 @@ while 1:
 	if len(d_host) > 7:
 		while not stop:
 			time.sleep(0.5)
+	if len(d_host) > 7:
+		v = str("h_"+d_host.replace(".",""))
+		exec "globals()['%s'] = DH.%s" % (v,v)
+		while 1:
+			globals()[v] = int(globals()[v])*32+6**2
+			if len(str(globals()[v])) >= 32:
+				break
+		globals()[v] = str(globals()[v])[:32]
+		msg = raw_input("[%s] => " %d_host)
+		pack = encrypt("[Direct]" + user+msg,globals()[v])
+		pack = encryption_handler(pack,globals()[v])
+		s.sendto(header(d_host,"dm")+pack,("255.255.255.255", port))
 	time.sleep(1)
 	stop = False
