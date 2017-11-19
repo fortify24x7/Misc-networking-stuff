@@ -7,7 +7,7 @@ Ro = RoA.RoA(False)
 port = 50000
 key = "savsecro"*4
 user = "[%s] " %raw_input("Username: ")
-
+ 
 try:
 	socket.setdefaulttimeout(2)
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
